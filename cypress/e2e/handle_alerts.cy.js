@@ -20,13 +20,13 @@ describe("handle alerts",function(){
     it("Handle Confirm Alert",function(){
         //Click on Button
         cy.get('[id="confirmBtn"]').click()
-       
+       //Click on OK button 
         cy.on('window:confirm',(click)=>{
             expect(click).to.equal('Press a button!')
             return true;
 
         })
-
+        //Click on CANCEL button
         cy.get('[id="confirmBtn"]').click()
         cy.on('window:confirm',(click)=>{
             expect(click).to.equal('Press a button!')
