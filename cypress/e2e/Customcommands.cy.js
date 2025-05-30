@@ -12,7 +12,6 @@ it("handle single window calender",function(){
     //OR
     cy.verifyAfterLogin();
 
-
 })
 
 
