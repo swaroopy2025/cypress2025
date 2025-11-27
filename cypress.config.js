@@ -15,4 +15,8 @@ module.exports = defineConfig({
       
     },
   },
+  // Set the preferred editor
+  env: {
+    CYPRESS_INTERNAL_ENV: 'development'
+  }
 });

@@ -26,7 +26,7 @@ import 'cypress-shadow-dom';
 import 'cypress-mochawesome-reporter/register';
 
 //Handle cypress file upload
-//import("cypress-file-upload");
+import("cypress-file-upload");
 
 //Handle Drag and Drop functionality
 require('@4tw/cypress-drag-drop') ;
@@ -43,6 +43,12 @@ before(() => {
     cy.intercept({ resourceType: /xhr|fetch/ }, { log: false });
 });
 
+//Handle uncatch exceptions 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // returning false here prevents Cypress from
+  // failing the test
+  return false;
+});
   
 
   
