@@ -24,12 +24,13 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import {faker} from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
+import { timeout } from 'rxjs';
 
-Cypress.Commands.add("generateUser",()=>{
+Cypress.Commands.add("generateUser", () => {
     return {
         firstName: faker.person.firstName(),
-        email: faker.internet.email(),   
+        email: faker.internet.email(),
     };
 
 })
@@ -129,7 +130,7 @@ Cypress.Commands.add("ProvidingDataIntoServiceInformationScreen", () => {
     //Clicking Continue button in Service Information screen
     cy.get('input[alt="Continue"]').click()
     cy.wait(4000)
-    
+
 })
 /*Clicking Submit TAR Link*/
 Cypress.Commands.add("ClickingOnSubmitTARLinkInTARServiceScreen", () => {
@@ -206,7 +207,7 @@ Cypress.Commands.add("AddingAnotherServiceIntoServiceInformationScreen", () => {
     cy.get("div div h2").should('have.text', 'TAR Services ')
 })
 /*Capturing Service Indicator, code and Tar Number*/
-Cypress.Commands.add("CaptureServiceAndTAR",()=>{
+Cypress.Commands.add("CaptureServiceAndTAR", () => {
     cy.get(':nth-child(9) > tbody > :nth-child(2) > [width="40%"] > .content').then((ele) => {
         cy.xpath("//td[@valign='top']//span[@class='subtitle']").then((tar) => {
             cy.get('tbody> :nth-child(2)> [width="20%"]> .content').then((no) => {
@@ -234,14 +235,507 @@ Cypress.Commands.add("CaptureServiceAndTAR",()=>{
 })
 
 //Just Practice
-Cypress.Commands.add("handleApplicationLogin",()=>{
+Cypress.Commands.add("handleApplicationLogin", () => {
     cy.visit("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
     cy.get('[name="username"]').type('Admin')
     cy.get('[name="password"]').type('admin123')
     cy.get('[type="submit"]').click()
 })
 //Just Practice
-Cypress.Commands.add("verifyAfterLogin",()=>{
+Cypress.Commands.add("verifyAfterLogin", () => {
     cy.xpath('(//span[@class="oxd-text oxd-text--span oxd-main-menu-item--name"])[5]').click()
     cy.xpath('(//i[@class="oxd-icon bi-calendar oxd-date-input-icon"])[1]').click()
+})
+
+//*********************************************************** *//
+//Launch Vehicle Insurance Application
+Cypress.Commands.add("LaunchApplication", (url) => {
+    cy.visit(url)
+})
+//Creating Quotation for Automobile
+Cypress.Commands.add("QuoteForAutomobile", (
+    make,
+    enginePerformance,
+    dateOfMnf,
+    seats,
+    fuelType,
+    price,
+    lpn,
+    mileage,
+    firstName,
+    lastName,
+    dob,
+    streetAddess,
+    country,
+    zipCode,
+    city,
+    occupation,
+    website,
+    startDate,
+    insuranceSum,
+    meritRating,
+    damageInsurance,
+    ccar,
+    email,
+    username,
+    password,
+    confirmpassword) => {
+    //click on AUTOMOBILE from Main Menu
+    cy.get('#nav_automobile').click()
+
+    //selecting the Make value from the Dropdown
+    cy.xpath('//select[@id="make"]').select(make)
+    //Enter Engine Performance[Kw] must be 1 to 2000
+    cy.xpath('//input[@id="engineperformance"]').type(enginePerformance)
+    //Verifying the Engine Performance[Kw] error message if user enters more than 2000
+    cy.xpath('//span[text()="Must be a number between 1 and 2000"]').should('not.be.visible')
+    //Enter Date of Manufacture
+    cy.xpath('//input[@id="dateofmanufacture"]').type(dateOfMnf)
+    //Select No of Seats
+    cy.xpath('//select[@id="numberofseats"]').select(seats)
+    //Select Fuel Type
+    cy.xpath('//select[@id="fuel"]').select(fuelType)
+    //Enter List Price[$] between 500 to 100000
+    cy.xpath('//input[@id="listprice"]').type(price)
+    //Enter License Plate Number below 10 characters
+    cy.xpath('//input[@id="licenseplatenumber"]').type(lpn)
+    //Enter Annual Mileage [mi] between 100 to 100000
+    cy.xpath('//input[@id="annualmileage"]').type(mileage)
+    // To navigate t0 the Enter the insurance data block
+    cy.xpath('//button[@id="nextenterinsurantdata"]').click()
+
+    // To enter the Customer First Name
+    cy.xpath('//input[@id="firstname"]').type(firstName)
+    // To enter the customer Last Name
+    cy.xpath('//input[@id="lastname"]').type(lastName)
+    // To provide the customer date of birth
+    cy.xpath('//input[@id="birthdate"]').type(dob)
+    // To select the gender of the customer
+    cy.xpath('//input[@id="genderfemale"]').click({ force: true })
+    // To add the street address of the customer
+    cy.xpath('//input[@id="streetaddress"]').type(streetAddess)
+    // To select the country of the customer
+    cy.xpath('//select[@id="country"]').select(country)
+    // To enter the Zip code
+    cy.xpath('//input[@id="zipcode"]').type(zipCode)
+    // To enter the city of the customer
+    cy.xpath('//input[@id="city"]').type(city)
+    // To know the select the occupation
+    cy.xpath('//select[@id="occupation"]').select(occupation)
+    // to know the Hobbies of the customer
+    cy.xpath('//input[@id="cliffdiving"]').click({ force: true })
+    // To enter the website
+    cy.xpath('//input[@id="website"]').type(website)
+
+    /// To navigate to the Product data page
+    cy.xpath('//button[@id="nextenterproductdata"]').click()
+    // To enter the start date of the Vehicle
+    cy.xpath('//button[@id="openstartdatecalender"]').type(startDate)
+    // to select the insurance amount
+    cy.xpath('//select[@id="insurancesum"]').select(insuranceSum)
+    //  To select the Merit Rating
+    cy.xpath('//select[@id="meritrating"]').select(meritRating)
+    // To cover the damage insurance
+    cy.xpath('//select[@id="damageinsurance"]').select(damageInsurance)
+    // To select the Optional Products
+    cy.xpath('//input[@id="LegalDefenseInsurance"]').click({ force: true })
+    // to select the Courtesy Car
+    cy.xpath('//select[@id="courtesycar"]', { timeout: 8000 }).select(ccar)
+
+    /// To navigate to the Price
+    cy.xpath('//button[@id="nextselectpriceoption"]').click({ force: true })
+    //To select the option
+    cy.xpath('(//span[@class="ideal-radio"])[4]').click({ force: true })
+
+    /// To Navigate to the Send Quote
+    cy.xpath('//button[@id="nextsendquote"]').click({ force: true })
+    // To Enter the Email Id
+    cy.xpath('//input[@id="email"]').type(email, { force: true })
+    //To enter the Username
+    cy.xpath('//input[@id="username"]').type(username, { force: true })
+    //To enter the password
+    cy.xpath('//input[@id="password"]').type(password, { force: true })
+    // To re-enter the password
+    cy.xpath('//input[@id="confirmpassword"]').type(confirmpassword, { force: true })
+    // To enter the comments
+    //cy.xpath('//textarea[@id="comments"]',{timeout:8000}).type(comments, { force: true })
+    // To send the application
+    cy.xpath('//button[@id="sendemail"]').click({ force: true })
+    //Verify the popup message
+    cy.xpath('//h2[text()="Sending e-mail success!"]', { timeout: 15000 }).should('be.visible')
+    //Click on OK button in popup message
+    cy.xpath('//button[@class="confirm"]').click({ force: true })
+    //Back to main menu (Main page)
+    cy.xpath('//a[@id="backmain"]').click({ force: true })
+})
+//Creating Quotation for TRUCK
+Cypress.Commands.add("QuoteForTruck", (
+    make,
+    enginePerformance,
+    dateOfMnf,
+    seats,
+    fuelType,
+    payload,
+    totalWeight,
+    price,
+    lpn,
+    mileage,
+    firstName,
+    lastName,
+    dob,
+    streetAddess,
+    country,
+    zipCode,
+    city,
+    occupation,
+    website,
+    startDate,
+    insuranceSum,
+    damageInsurance,
+    email,
+    phone,
+    username,
+    password,
+    confirmpassword,
+    comments) => {
+    //click on TRUCK from Main Menu
+    cy.xpath('(//a[@id="nav_truck"])[1]').click()
+    //Verifying the screen after click on TRUCK from Main Menu
+    cy.xpath('//Span[@id="selectedinsurance"]').should("be.visible")
+
+    ///Enter VECHILE DATA
+    //selecting the Make value from the Dropdown
+    cy.xpath('//select[@id="make"]').select(make)
+    //Enter Engine Performance[Kw] must be 1 to 2000
+    cy.xpath('//input[@id="engineperformance"]').type(enginePerformance)
+    //Verifying the Engine Performance[Kw] error message if user enters more than 2000
+    cy.xpath('//span[text()="Must be a number between 1 and 2000"]').should('not.be.visible')
+    //Enter Date of Manufacture
+    cy.xpath('//input[@id="dateofmanufacture"]').type(dateOfMnf)
+    //Select No of Seats
+    cy.xpath('//select[@id="numberofseats"]').select(seats)
+    //Select Fuel Type
+    cy.xpath('//select[@id="fuel"]').select(fuelType)
+    //Enter Payload[kg] between 1 to 1000
+    cy.xpath('//input[@id="payload"]').type(payload)
+    //Enter Total Weight[kg] between 100 to 50000
+    cy.xpath('//input[@id="totalweight"]').type(totalWeight)
+    //Enter List Price[$] between 500 to 100000
+    cy.xpath('//input[@id="listprice"]').type(price)
+    //Enter License Plate Number below 10 characters
+    cy.xpath('//input[@id="licenseplatenumber"]').type(lpn)
+    //Enter Annual Mileage [mi] between 100 to 100000
+    cy.xpath('//input[@id="annualmileage"]').type(mileage)
+    //Click on NEXT button
+    cy.xpath('//button[@id="nextenterinsurantdata"]').click()
+    //Verify the sucessfully navigate to next page or not
+    cy.xpath('//label[text()="First Name"]').should('be.visible')
+
+    ///Enter INSURANCE DATA
+    //Enter First Name
+    cy.xpath('//input[@id="firstname"]').type(firstName)
+    //Enter Last Name
+    cy.xpath('//input[@id="lastname"]').type(lastName)
+    //Enter DOB
+    cy.xpath('//input[@id="birthdate"]').type(dob)
+    //Selec Gender Radio button
+    cy.xpath('//input[@id="gendermale" and @value="Male"]').check({ force: true })
+    //Enter the Street Address
+    cy.xpath('//input[@id="streetaddress"]').type(streetAddess)
+    //Select the Country filter list
+    cy.xpath('//select[@id="country"]').select(country)
+    //Enter Zip code
+    cy.xpath('//input[@id="zipcode"]').type(zipCode)
+    //Enter city
+    cy.xpath('//input[@id="city"]').type(city)
+    //Select Occupation
+    cy.xpath('//select[@id="occupation"]').select(occupation)
+    //Check the Hobbies Checkbox
+    cy.xpath('//input[@id="speeding"]').check({ force: true })
+    //Enter web site URL
+    cy.xpath('//input[@id="website"]').type(website)
+    //Attach Picture
+    cy.xpath('//input[@id="picture"]').attachFile('swaroop.png')
+    //Click on Next button
+    cy.xpath('//button[@id="nextenterproductdata"]').click()
+    //Verify the screen navigate to next screen or not
+    cy.xpath('//label[text()="Start Date"]').should('be.visible')
+
+    ///Enter Product Data
+    //Enter Start Date
+    cy.xpath('//input[@id="startdate"]').type(startDate)
+    //Select Insurance Sum [$] from list
+    cy.xpath('//select[@id="insurancesum"]').select(insuranceSum)
+    //Select Damage Insurance from list
+    cy.xpath('//select[@id="damageinsurance"]').select(damageInsurance)
+    //Check the Optional Products checkbox
+    cy.xpath('//input[@id="EuroProtection"]').check({ force: true })
+    //Click on Next Button
+    cy.xpath('//button[@id="nextselectpriceoption"]').click()
+    //Verify the screen navigate to next screen or not
+    cy.xpath('//table[@id="priceTable"]').should('be.visible')
+
+    ///Select Price option
+    //Select Radio button (Silver, Gold, Platinum and Ultimate)
+    cy.xpath('//input[@id="selectgold"]').check({ force: true }).should('be.checked')
+    //Download the Quote
+    //cy.xpath('//a[@id="downloadquote"]', { timeout: 20000 }).click()
+    //Verify the screen auto navigate to next screen
+    // cy.xpath('//input[@id="email"]',{ timeout: 20000 }).should('be.visible')
+    //Click on NEXT button
+    cy.xpath('//button[@id="nextsendquote"]').click({ force: true })
+
+    ///Send quote to mail
+    //Enter Email 
+    cy.xpath('//input[@id="email"]').type(email, { force: true })
+    //Enter Phone Number
+    cy.xpath('//input[@id="phone"]').type(phone, { force: true })
+    //Enter Username
+    cy.xpath('//input[@id="username"]').type(username, { force: true })
+    //Enter Password
+    cy.xpath('//input[@id="password"]').type(password, { force: true }, { log: false })
+    //Enter Confirm Password
+    cy.xpath('//input[@id="confirmpassword"]').type(confirmpassword, { force: true }, { log: false })
+    //Enter Comments
+    //cy.xpath('//textarea[@id="comments"]',{timeout:5000}).type(comments, { force: true })
+    //Click on Send button
+    cy.xpath('//button[@id="sendemail"]').click({ force: true })
+    //Verify the popup message
+    cy.xpath('//h2[text()="Sending e-mail success!"]', { timeout: 15000 }).should('be.visible')
+    //Click on OK button in popup message
+    cy.xpath('//button[@class="confirm"]').click({ force: true })
+    //Back to main menu (Main page)
+    cy.xpath('//a[@id="backmain"]').click({ force: true })
+})
+//Creating Quotation for MOTORCYCLE
+Cypress.Commands.add("QuoteForMotorcycle", (
+    make,
+    model,
+    cc,
+    enginePerformance,
+    dateOfMnf,
+    seats,
+    price,
+    mileage,
+    firstName,
+    lastName,
+    dob,
+    streetAddess,
+    country,
+    zipCode,
+    city,
+    occupation,
+    website,
+    startDate,
+    insuranceSum,
+    damageInsurance,
+    email,
+    username,
+    password,
+    confirmpassword,
+    comments) => {
+    //Click on the MOTORCYCLE in main menu
+    cy.xpath('(//a[@id="nav_motorcycle"])[1]').click()
+    // select the Make
+    cy.xpath('//select[@id="make"]').select(make)
+    // To select the Model
+    cy.xpath('//select[@id="model"]').select(model)
+    // To enter the Cylinder Capacity
+    cy.xpath('//input[@id="cylindercapacity"]').type(cc)
+    // To enter the Engine Performance
+    cy.xpath('//input[@id="engineperformance"]').type(enginePerformance)
+    // To Enter the date of manufacturer
+    cy.xpath('//button[@id="opendateofmanufacturecalender"]').type(dateOfMnf)
+    // To select the No. of Seats
+    cy.xpath('//select[@id="numberofseatsmotorcycle"]').select(seats)
+    // To enter the price
+    cy.xpath('//input[@id="listprice"]').type(price)
+    // To enter the Annaual Mileage
+    cy.xpath('//input[@id="annualmileage"]').type(mileage)
+    // To navigate t0 the Enter the insurance data block
+    cy.xpath('//button[@id="nextenterinsurantdata"]').click()
+    // To enter the Customer First Name
+    cy.xpath('//input[@id="firstname"]').type(firstName)
+    // To enter the customer Last Name
+    cy.xpath('//input[@id="lastname"]').type(lastName)
+    // To provide the customer date of birth
+    cy.xpath('//input[@id="birthdate"]').type(dob)
+    // To select the gender of the customer
+    cy.xpath('//input[@id="genderfemale"]').click({ force: true })
+    //To add the street address of the customer
+    cy.xpath('//input[@id="streetaddress"]').type(streetAddess)
+    // To select the country of the customer
+    cy.xpath('//select[@id="country"]').select(country)
+    // To enter the Zip code
+    cy.xpath('//input[@id="zipcode"]').type(zipCode)
+    // To enter the city of the customer
+    cy.xpath('//input[@id="city"]').type(city)
+    // To know the select the occupation
+    cy.xpath('//select[@id="occupation"]').select(occupation)
+    // to know the Hobbies of the customer
+    cy.xpath('//input[@id="cliffdiving"]').click({ force: true })
+    // To enter the website
+    cy.xpath('//input[@id="website"]').type(website)
+    // To upload the customer vehicle image
+    // cy.xpath('//button[@id="open"]').selectFile('cypress/fixtures/image.png')
+    // To navigate to the Product data page
+    cy.xpath('//button[@id="nextenterproductdata"]').click()
+    // To enter the start date of the Vehicle
+    cy.xpath('//button[@id="openstartdatecalender"]').type(startDate)
+    // to select the insurance amount
+    cy.xpath('//select[@id="insurancesum"]').select(insuranceSum)
+    // To cover the damage insurance
+    cy.xpath('//select[@id="damageinsurance"]').select(damageInsurance)
+    // To select the Optional Products
+    cy.xpath('//input[@id="LegalDefenseInsurance"]').click({ force: true })
+    // To navigate to the Price
+    cy.xpath('//button[@id="nextselectpriceoption"]').click({ force: true })
+    //To select the option
+    cy.xpath('(//span[@class="ideal-radio"])[4]').click()
+    // To view quote
+    // cy.xpath('//a[@id="viewquote"]').click()
+    // To Navigate to the Send Quote
+    cy.xpath('//button[@id="nextsendquote"]').click({ force: true })
+    // To Enter the Email Id
+    cy.xpath('//input[@id="email"]').type(email)
+    //To enter the Username
+    cy.xpath('//input[@id="username"]').type(username)
+    //To enter the password
+    cy.xpath('//input[@id="password"]').type(password, { log: false })
+    // To re-enter the password
+    cy.xpath('//input[@id="confirmpassword"]').type(confirmpassword, { log: false })
+    // To enter the comments
+    //cy.xpath('//textarea[@id="comments"]',{timeout:5000}).type(comments, { force: true })
+    // To send the application
+    cy.xpath('//button[@id="sendemail"]').click({ force: true })
+    //Verify the popup message
+    cy.xpath('//h2[text()="Sending e-mail success!"]', { timeout: 15000 }).should('be.visible')
+    //Click on OK button in popup message
+    cy.xpath('//button[@class="confirm"]').click({ force: true })
+    //Back to main menu (Main page)
+    cy.xpath('//a[@id="backmain"]').click({ force: true })
+})
+//Creating Quotation for CAMPER
+Cypress.Commands.add("QuoteForCamper", (
+    make, 
+    enginePerformance, 
+    dateOfMnf, 
+    seats, 
+    fuelType, 
+    payload, 
+    totalWeight, 
+    price, 
+    lpn, 
+    mileage, 
+    firstName, 
+    lastName, 
+    dob, 
+    streetAddess, 
+    country, 
+    zipCode, 
+    city, 
+    occupation, 
+    website, 
+    startDate, 
+    insuranceSum, 
+    damageInsurance, 
+    email, 
+    username, 
+    password, 
+    confirmpassword, 
+    comments) => {
+    //Click on the CAMPER in main menu
+    cy.xpath('(//a[@id="nav_camper"])[1]').click()
+    // select the Make
+    cy.xpath('//select[@id="make"]').select(make)
+    // To enter the Engine Performance
+    cy.xpath('//input[@id="engineperformance"]').type(enginePerformance)
+    // To Enter the date of manufacturer
+    cy.xpath('//button[@id="opendateofmanufacturecalender"]').type(dateOfMnf)
+    // To select the No. of Seats
+    cy.xpath('//select[@id="numberofseats"]').select(seats)
+    //Select Radio Button Right Hand Drive
+    cy.xpath('//input[@id="righthanddriveyes"]').check({ force: true })
+    //Select Fuel Type
+    cy.xpath('//select[@id="fuel"]').select(fuelType)
+    //Enter Payload[kg] between 1 to 1000
+    cy.xpath('//input[@id="payload"]').type(payload)
+    //Enter Total Weight[kg] between 100 to 50000
+    cy.xpath('//input[@id="totalweight"]').type(totalWeight)
+    //Enter List Price[$] between 500 to 100000
+    cy.xpath('//input[@id="listprice"]').type(price)
+    //Enter License Plate Number below 10 characters
+    cy.xpath('//input[@id="licenseplatenumber"]').type(lpn)
+    //Enter Annual Mileage [mi] between 100 to 100000
+    cy.xpath('//input[@id="annualmileage"]').type(mileage)
+
+    ///Clicking on Enter Insurance Data TAB in header
+    // To navigate t0 the Enter the insurance data block
+    cy.xpath('//button[@id="nextenterinsurantdata"]').click()
+    // To enter the Customer First Name
+    cy.xpath('//input[@id="firstname"]').type(firstName)
+    // To enter the customer Last Name
+    cy.xpath('//input[@id="lastname"]').type(lastName)
+    // To provide the customer date of birth
+    cy.xpath('//input[@id="birthdate"]').type(dob)
+    // To select the gender of the customer
+    cy.xpath('//input[@id="genderfemale"]').click({ force: true })
+    // To add the street address of the customer
+    cy.xpath('//input[@id="streetaddress"]').type(streetAddess)
+    // To select the country of the customer
+    cy.xpath('//select[@id="country"]').select(country)
+    // To enter the Zip code
+    cy.xpath('//input[@id="zipcode"]').type(zipCode)
+    // To enter the city of the customer
+    cy.xpath('//input[@id="city"]').type(city)
+    // To know the select the occupation
+    cy.xpath('//select[@id="occupation"]').select(occupation)
+    // to know the Hobbies of the customer
+    cy.xpath('//input[@id="cliffdiving"]').click({ force: true })
+    // To enter the website
+    cy.xpath('//input[@id="website"]').type(website)
+    // To upload the customer vehicle image
+    // cy.xpath('//button[@id="open"]').selectFile('cypress/fixtures/image.png')
+
+    ///Clicking on Enter Product Data TAB in header
+    // To navigate to the Product data page
+    cy.xpath('//button[@id="nextenterproductdata"]').click()
+    // To enter the start date of the Vehicle
+    cy.xpath('//button[@id="openstartdatecalender"]').type(startDate)
+    // to select the insurance amount
+    cy.xpath('//select[@id="insurancesum"]').select(insuranceSum)
+    // To cover the damage insurance
+    cy.xpath('//select[@id="damageinsurance"]').select(damageInsurance)
+    // To select the Optional Products
+    cy.xpath('//input[@id="LegalDefenseInsurance"]').click({ force: true })
+
+    ///Clicking on Select Price TAB in header
+    // To navigate to the Price
+    cy.xpath('//button[@id="nextselectpriceoption"]').click({ force: true })
+    //To select the option
+    cy.xpath('(//span[@class="ideal-radio"])[4]').click()
+    // To view quote
+    // cy.xpath('//a[@id="viewquote"]').click()
+    // Click on NEXT Button to navigate to Send Quote
+    cy.xpath('//button[@id="nextsendquote"]').click({ force: true })
+
+    ///Naviagte to Send Quote 
+    // To Enter the Email Id
+    cy.xpath('//input[@id="email"]').type(email)
+    //To enter the Username
+    cy.xpath('//input[@id="username"]').type(username)
+    //To enter the password
+    cy.xpath('//input[@id="password"]').type(password, { log: false })
+    // To re-enter the password
+    cy.xpath('//input[@id="confirmpassword"]').type(confirmpassword, { log: false })
+    // To enter the comments
+    //cy.xpath('//textarea[@id="Comments"]',{timeout:5000}).type(comments, { force: true })
+    // To send the application
+    cy.xpath('//button[@id="sendemail"]').click()
+    //Verify the popup message
+    cy.xpath('//h2[text()="Sending e-mail success!"]', { timeout: 15000 }).should('be.visible')
+    //Click on OK button in popup message
+    cy.xpath('//button[@class="confirm"]').click({ force: true })
+    //Back to main menu (Main page)
+    cy.xpath('//a[@id="backmain"]').click({ force: true })
 })
