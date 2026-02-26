@@ -5,6 +5,10 @@ module.exports = defineConfig({
   reporter: 'cypress-mochawesome-reporter',
   
   e2e: {
+
+    //For Recording(by default it is false).Open Cypress with npx cypress open.Open a test file.You’ll see the “Add Command” button in the runner
+    //experimentalStudio: true
+
     //AutoRun Stop By default its TRUE
     //watchForFileChanges:false,
 
