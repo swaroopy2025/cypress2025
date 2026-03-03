@@ -3,6 +3,17 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   //chromeWebSecurity: false,
   reporter: 'cypress-mochawesome-reporter',
+
+  //If you want one report per spec file, modify cypress.config.js.Each spec file gets its own report.Files won’t be replaced
+  reporterOptions: {
+    reportDir: "cypress/reports",
+    overwrite: false,          // IMPORTANT
+    html: true,
+    json: true,
+    charts: true,
+    embeddedScreenshots: true,
+    inlineAssets: true,
+  },
   
   e2e: {
 
