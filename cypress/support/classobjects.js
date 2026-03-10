@@ -1,5 +1,6 @@
 class vinsurancepageobjects {
     ///click on AUTOMOBILE from Main Menu
+    ///////////////////////////
     clickAutomobileMainMenu() { return cy.get('#nav_automobile') }
     //selecting the Make value from the Dropdown
     selectMakeValue() { cy.xpath('//select[@id="make"]') }
@@ -81,6 +82,7 @@ class vinsurancepageobjects {
     clickOnBackMainMenu(){cy.xpath('//a[@id="backmain"]')}
     
     ///click on TRUCK from Main Menu
+    ///////////////////////////
     clickTruckMainMenu(){cy.xpath('(//a[@id="nav_truck"])[1]')}
     //Verifying the screen after click on TRUCK from Main Menu
     verifyTruckNavigate(){cy.xpath('//Span[@id="selectedinsurance"]')}
@@ -141,6 +143,7 @@ class vinsurancepageobjects {
     //Back to main menu (Main page)
 
     ///Click on the MOTORCYCLE in main menu
+    /////////////////////////
     clickMotorCycleMainMenu(){cy.xpath('(//a[@id="nav_motorcycle"])[1]')}
     // select the Make
     // To select the Model
@@ -183,6 +186,7 @@ class vinsurancepageobjects {
     //Back to main menu (Main page)
 
     ///Click on the CAMPER in main menu
+    /////////////////////////
     clickCamperMainMenu(){cy.xpath('(//a[@id="nav_camper"])[1]')}
     // select the Make
     // To enter the Engine Performance
