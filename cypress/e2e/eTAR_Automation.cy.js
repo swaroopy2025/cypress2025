@@ -7,7 +7,7 @@ describe("Performing Unit Testing in eTAR", function () {
         cy.LauncheTARApplication()
         cy.ClickOnCreatingANEWTARLink()
     })
-    after
+    
     //Creating TAR with Single Service(HoSPITAL DAYS)
     it("Creating TAR with Single Service for HoSPITAL DAYS ", () => {
 

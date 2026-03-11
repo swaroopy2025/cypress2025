@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@cypress/grep": "^4.1.0",
-    "@faker-js/faker": "^9.6.0",
+    "@faker-js/faker": "^10.3.0",
     "cypress": "^13.14.2",
     "cypress-file-upload": "^5.0.8",
     "cypress-mochawesome-reporter": "^3.8.2",
@@ -51,6 +51,7 @@
     "common-tags": "^1.8.2",
     "core-util-is": "^1.0.2",
     "cross-spawn": "^7.0.3",
+    "cypress-real-events": "^1.15.0",
     "dashdash": "^1.14.1",
     "dayjs": "^1.11.12",
     "debug": "^4.3.5",

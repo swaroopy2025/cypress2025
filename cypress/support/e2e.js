@@ -18,6 +18,9 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
+//Handle tool tip (It triggers a JS event, but CSS :hover is handled by the browser UI engine — not by JS events alone.).hence we install plugin for this "npm install cypress-real-events"
+import "cypress-real-events/support";
+
 //To Use cypress xpath
 require('cypress-xpath');
 //Inport the Shadow DOM to indentufy the hidden element 
