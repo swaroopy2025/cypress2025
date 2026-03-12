@@ -1,4 +1,5 @@
 const { defineConfig } = require("cypress");
+const xlsx = require("xlsx");
 
 module.exports = defineConfig({
   //chromeWebSecurity: false,
@@ -26,6 +27,17 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
 
+      /*** To Configure the Excel for to perform excel operations.[This allows Cypress to read Excel and return JSON data.] ***/
+      on("task", {
+        parseExcel({ filePath }) {
+          const workbook = xlsx.readFile(filePath);
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          return xlsx.utils.sheet_to_json(sheet);
+        },
+      });
+
+      //cypress-mochawesome-reporter for generating reports
       require('cypress-mochawesome-reporter/plugin')(on);
       
     },
