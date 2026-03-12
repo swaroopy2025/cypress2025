@@ -262,7 +262,7 @@ Cypress.Commands.add("verifyAfterLogin", () => {
 /***************************Vechile Insurance******************************** *//
 /*If you want to use the elements from your Page Object class inside Cypress Custom Commands, the process is:
 
-1️⃣ Import the Page Object
+1️⃣ Import the Page Object(import statements must be at the top of the file)
 2️⃣ Create object of the class
 3️⃣ Call its methods inside Cypress.Commands.add() */
 
