@@ -5,6 +5,7 @@
     "cypress": "^13.14.2",
     "cypress-file-upload": "^5.0.8",
     "cypress-mochawesome-reporter": "^3.8.2",
+    "cypress-repeat": "^2.3.10",
     "cypress-shadow-dom": "^1.4.1",
     "cypress-xpath": "^2.0.1"
   },
