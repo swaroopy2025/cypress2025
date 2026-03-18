@@ -23,7 +23,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
+/*-----------------------------------------------------------------------------------*/
 /*** import statements must be at the top of the file.***/
 /*If you want to use the elements from your Page Object class inside Cypress Custom Commands, the process is:
 
@@ -31,11 +31,24 @@
 2️⃣ Create object of the class
 3️⃣ Call its methods inside Cypress.Commands.add() */
 import VInsurancePageObjects from "../support/classobjects.js";
-//Created the object of the class
+//Created the object of the class for POM
 const vinsurance = new VInsurancePageObjects()
-
+/*-----------------------------------------------------------------------------------*/
 import { faker } from '@faker-js/faker';
 import { timeout } from 'rxjs';
+
+/*------cypress-repeat is alternate approach for Cypress._.times Lodash built-in.
+Basically, cypress-repeat is a modern Cypress-friendly iteration, Lodash .times is a simple JS iteration.
+Cypress._.times Lodash built-in, Cypress v4+ nundi included undi.
+
+cypress-repeat plugin external plugin, npm lo separately install cheyali:
+
+direct ga cy.repeat use cheyadam test suite (describe) level ki possible kaadu. 😅
+
+cy.repeat() Cypress commands lo work chestundi (inside it block), entire test suite describe repeat cheyadaniki kaadu.
+
+***/
+//import 'cypress-repeat';
 
 Cypress.Commands.add("generateUser", () => {
     return {
