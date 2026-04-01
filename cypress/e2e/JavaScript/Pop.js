@@ -1,3 +1,13 @@
+/*
+| Method      | Action | Position  | Returns         |
+| ----------- | ------ | --------- | --------------- |
+| `push()`    | Add    | End       | New length      |
+| `pop()`     | Remove | End       | Removed element |
+| `shift()`   | Remove | Beginning | Removed element |
+| `unshift()` | Add    | Beginning | New length      |
+
+*/
+
 const arr=[1,2,3,4,5,6,7,8,9,10]
 //Removes the Last element of an Array and returns it.
 let a= arr.pop()
