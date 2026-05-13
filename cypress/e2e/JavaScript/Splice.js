@@ -8,3 +8,16 @@ console.log(num);
 console.log('---------------------------------------')
 numSplice.splice(0,0,66,77)
 console.log(numSplice)
+
+console.log('---------------------------------------')
+let arr = [1, 2, 5];
+
+arr.splice(2, 0, 3, 4);
+
+console.log(arr);
+
+console.log('---------------------------------------')
+
+let arr1 = [1, 2, 3, 4];
+arr1.splice(0, 0, 10, 20);
+console.log(arr1);

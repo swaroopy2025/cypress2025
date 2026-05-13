@@ -16,3 +16,26 @@ let arr = [10, 20, 30, 20];
 
 console.log(arr.indexOf(20));     // 1
 console.log(arr.indexOf(20, 2));  // 3
+
+
+console.log("==================================");
+
+let fruits = ["apple", "banana", "mango", "banana"];
+
+console.log(fruits.indexOf("mango")); 
+console.log("==================================");
+
+let fruits1 = ["apple", "banana", "mango", "banana"];
+
+//Syntax :   array.indexOf(element, startIndex)
+console.log(fruits1.indexOf("banana",2));
+
+/*
+indexOf vs includes (Quick idea)
+
+indexOf() → gives position
+includes() → gives true/false
+*/
+
+ 
+console.log(fruits.includes("banana"));//true
